@@ -30,7 +30,7 @@ fetch(DIRECTORY_URL).then(res => res.json()).then(async json => {
 
     for (id in json) {
         fetch(json[id]).then(res => res.json()).then(json => {
-            database.queryPromisify(sql, [json.space, json.logo, json.location.lat, json.location.lon])
+            return database.queryPromisify(sql, [json.space, json.logo, json.location.lat, json.location.lon]);
         }).then(() => {
             if (i % 5 === 0) {
                 console.log(`${i}…`);

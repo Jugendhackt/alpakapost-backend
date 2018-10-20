@@ -15,8 +15,6 @@ class DatabaseManager {
         if (this.host === void 0 || this.user === void 0 || this.password === void 0 || this.database === void 0) {
             DatabaseLogger.warn('One or more values are undefined, please check that they are defined in the .env file');
         }
-
-        console.log(this);
     }
 
 
