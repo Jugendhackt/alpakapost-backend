@@ -16,23 +16,47 @@
 CREATE DATABASE IF NOT EXISTS `alpakapost` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 USE `alpakapost`;
 
+-- Dumping structure for table alpakapost.connections
+CREATE TABLE IF NOT EXISTS `connections` (
+  `connection_id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned DEFAULT NULL,
+  `max_x` decimal(5,2) unsigned NOT NULL,
+  `max_y` decimal(5,2) unsigned NOT NULL,
+  `max_z` decimal(5,2) unsigned NOT NULL,
+  PRIMARY KEY (`connection_id`),
+  KEY `FK_connections_user` (`user_id`),
+  CONSTRAINT `FK_connections_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table alpakapost.connections: ~0 rows (approximately)
+/*!40000 ALTER TABLE `connections` DISABLE KEYS */;
+INSERT IGNORE INTO `connections` (`connection_id`, `user_id`, `max_x`, `max_y`, `max_z`) VALUES
+	(1, 1, 999.99, 999.99, 999.99);
+/*!40000 ALTER TABLE `connections` ENABLE KEYS */;
+
 -- Dumping structure for table alpakapost.goods
 CREATE TABLE IF NOT EXISTS `goods` (
   `good_id` int(11) NOT NULL AUTO_INCREMENT,
-  `dimension_x` decimal(5,2) NOT NULL DEFAULT '0.00',
-  `dimension_y` decimal(5,2) NOT NULL DEFAULT '0.00',
-  `dimension_z` decimal(5,2) NOT NULL DEFAULT '0.00',
+  `user_id` int(10) unsigned NOT NULL DEFAULT '0',
+  `weight` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
+  `dimension_x` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
+  `dimension_y` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
+  `dimension_z` decimal(5,2) unsigned NOT NULL DEFAULT '0.00',
   `start_location_id` int(11) NOT NULL DEFAULT '0',
   `destination_location_id` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`good_id`),
   KEY `FK_goods_hackerspaces` (`start_location_id`),
   KEY `FK_goods_hackerspaces_2` (`destination_location_id`),
+  KEY `FK_goods_user` (`user_id`),
   CONSTRAINT `FK_goods_hackerspaces` FOREIGN KEY (`start_location_id`) REFERENCES `hackerspaces` (`hackerspace_id`) ON DELETE CASCADE,
-  CONSTRAINT `FK_goods_hackerspaces_2` FOREIGN KEY (`destination_location_id`) REFERENCES `hackerspaces` (`hackerspace_id`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  CONSTRAINT `FK_goods_hackerspaces_2` FOREIGN KEY (`destination_location_id`) REFERENCES `hackerspaces` (`hackerspace_id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_goods_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table alpakapost.goods: ~0 rows (approximately)
 /*!40000 ALTER TABLE `goods` DISABLE KEYS */;
+INSERT IGNORE INTO `goods` (`good_id`, `user_id`, `weight`, `dimension_x`, `dimension_y`, `dimension_z`, `start_location_id`, `destination_location_id`) VALUES
+	(6, 1, 10.00, 999.99, 999.99, 999.99, 95, 103);
 /*!40000 ALTER TABLE `goods` ENABLE KEYS */;
 
 -- Dumping structure for table alpakapost.hackerspaces
@@ -46,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `hackerspaces` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=134 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table alpakapost.hackerspaces: ~118 rows (approximately)
+-- Dumping data for table alpakapost.hackerspaces: ~131 rows (approximately)
 /*!40000 ALTER TABLE `hackerspaces` DISABLE KEYS */;
 INSERT IGNORE INTO `hackerspaces` (`hackerspace_id`, `name`, `logo_url`, `latitude`, `longitude`) VALUES
 	(1, '/dev/tal', 'http://devtal.de/logo.png', 51.2670186, 7.1453920),
@@ -182,6 +206,28 @@ INSERT IGNORE INTO `hackerspaces` (`hackerspace_id`, `name`, `logo_url`, `latitu
 	(133, 'Perth Artifactory', 'http://artifactory.org.au/branding/artifactory-logo.png', -31.9018460, 115.8101360);
 /*!40000 ALTER TABLE `hackerspaces` ENABLE KEYS */;
 
+-- Dumping structure for table alpakapost.rides
+CREATE TABLE IF NOT EXISTS `rides` (
+  `ride_id` int(11) NOT NULL AUTO_INCREMENT,
+  `start_location_id` int(11) NOT NULL,
+  `destination_location_id` int(11) NOT NULL,
+  `connection_id` int(11),
+  PRIMARY KEY (`ride_id`),
+  KEY `FK_rides_hackerspaces` (`start_location_id`),
+  KEY `FK_rides_hackerspaces_2` (`destination_location_id`),
+  KEY `FK_rides_connections` (`connection_id`),
+  CONSTRAINT `FK_rides_connections` FOREIGN KEY (`connection_id`) REFERENCES `connections` (`connection_id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_rides_hackerspaces` FOREIGN KEY (`start_location_id`) REFERENCES `hackerspaces` (`hackerspace_id`) ON DELETE CASCADE,
+  CONSTRAINT `FK_rides_hackerspaces_2` FOREIGN KEY (`destination_location_id`) REFERENCES `hackerspaces` (`hackerspace_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table alpakapost.rides: ~0 rows (approximately)
+/*!40000 ALTER TABLE `rides` DISABLE KEYS */;
+INSERT IGNORE INTO `rides` (`ride_id`, `start_location_id`, `destination_location_id`, `connection_id`) VALUES
+	(1, 95, 104, 1),
+	(2, 104, 103, 1);
+/*!40000 ALTER TABLE `rides` ENABLE KEYS */;
+
 -- Dumping structure for table alpakapost.user
 CREATE TABLE IF NOT EXISTS `user` (
   `user_id` int(10) unsigned NOT NULL,
@@ -196,6 +242,8 @@ CREATE TABLE IF NOT EXISTS `user` (
 
 -- Dumping data for table alpakapost.user: ~0 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT IGNORE INTO `user` (`user_id`, `user_name`, `bio`, `telegram`, `mastodon`, `twitter`, `mobile`) VALUES
+	(1, 'jens1o', 'Awesome person', '@jens1o', '', '@jens1o', '');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
