@@ -1,0 +1,10 @@
+{
+    "dependencies": {
+        "dotenv": "^6.1.0",
+        "express": "^4.16",
+        "mysql": "^2.16.0"
+    },
+    "devDependencies": {
+        "node-fetch": "^2.2"
+    }
+}
