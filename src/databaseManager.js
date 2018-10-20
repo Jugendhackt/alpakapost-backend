@@ -45,13 +45,13 @@ class DatabaseManager {
 
     queryPromisify(sql, params) {
         return new Promise((resolve, reject) => {
-            this.getDatabase().query(sql, params, (err) => {
+            this.getDatabase().query(sql, params, (err, results) => {
                 if (err) {
                     reject(err);
                     return;
                 }
 
-                resolve();
+                resolve(results);
             })
         });
     }
