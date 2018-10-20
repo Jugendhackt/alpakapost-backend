@@ -18,20 +18,17 @@ mysql.establishConnection().then(() => {
                 filteredRides = rides.filter(x => x.start_location_id === node);
 
                 filteredRides = filteredRides.map(x => x.destination_location_id);
-                console.log('neighbours', filteredRides);
 
                 return filteredRides;
             };
 
             const dijlkstra2 = start => {
-                console.log('blub', start);
                 visitedNodes.add(start);
 
                 for (node of findNeighbours(start)) {
                     if (!visitedNodes.has(node)) previousNode.set(node, start);
 
                     if (node === destination) {
-                        console.log('test')
                         let path = [];
                         while (previousNode.get(node)) {
                             path.push(node);
