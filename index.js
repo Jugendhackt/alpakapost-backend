@@ -100,7 +100,6 @@ app.get('/tracking', (req, res) => {
         });
 
         res.json(results);
-
     });
 });
 
