@@ -31,6 +31,23 @@ app.get('/user', (req, res) => {
     });
 });
 
+// shows all goods that are waiting for delivery, including information on both stations
+app.get('/goods', (req, res) => {
+    let sql = `SELECT goods.*,
+hs1.name hs1_name, hs1.logo_url hs1_logo_url, hs1.latitude hs1_latitude, hs1.longitude hs1_longitude,
+hs2.name hs2_name, hs2.logo_url hs2_logo_url, hs2.latitude hs2_latitude, hs2.longitude hs2_longitude,
+user.user_name
+FROM goods
+LEFT JOIN hackerspaces hs1 ON hs1.hackerspace_id = goods.start_location_id
+LEFT JOIN hackerspaces hs2 ON hs2.hackerspace_id = goods.destination_location_id
+LEFT JOIN user ON user.user_id = goods.user_id;`;
+    database.getDatabase().query(sql, (err, results) => {
+        if (err) throw err;
+
+        res.json(results);
+    });
+});
+
 // shows all possible routes
 app.get('/connections', (req, res) => {
     let sql = `SELECT
