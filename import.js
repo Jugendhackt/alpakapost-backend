@@ -31,6 +31,10 @@ fetch(DIRECTORY_URL).then(res => res.json()).then(async json => {
 
     for (id in json) {
         fetch(json[id]).then(res => res.json()).then(json => {
+            // filter non spec-compliant hackerspaces :|
+            if (json.space === void 0 || json.logo === void 0 || json.location.lat === void 0 || json.location.lon === void 0) {
+                return;
+            }
             return database.queryPromisify(sql, [json.space, json.logo, json.location.lat, json.location.lon]);
         }).catch(() => { /* ignore errors */ })
             .finally(() => {
