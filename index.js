@@ -79,6 +79,31 @@ app.get('/connections', (req, res) => {
     });
 });
 
+app.get('/tracking', (req, res) => {
+    if (!req.query.good_id) {
+        res.json({
+            error: true,
+            error_message: "Please provide an ID for the good."
+        });
+        return;
+    }
+
+    let good_id = Number.parseInt(req.query.good_id);
+
+    database.getDatabase().query('SELECT * FROM tracking WHERE good_id = ?', [good_id], (err, results) => {
+        if (err) throw err;
+
+        // convert ISO timestamp of time to UNIX timestamp
+        results = results.map(x => {
+            x.time = Date.parse(x.time);
+            return x;
+        });
+
+        res.json(results);
+
+    });
+});
+
 // only serve the app as soon as we have database access.
 database.establishConnection().then(function () {
     app.listen(8080, "0.0.0.0");
