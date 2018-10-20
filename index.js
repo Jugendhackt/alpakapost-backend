@@ -31,6 +31,7 @@ app.get('/user', (req, res) => {
     });
 });
 
+// shows all possible routes
 app.get('/connections', (req, res) => {
     let sql = `SELECT
     hs1.name AS hs1_name, hs1.latitude AS hs1_latitude, hs1.longitude AS hs1_longitude,
