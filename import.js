@@ -5,6 +5,7 @@ const databaseManager = require('./src/databaseManager');
 
 /**
  * This file is responsible for exporting all location of the hackerspaces by name
+ *
  * @license GPL 3.0
  * @author Jens Hausdorf
  */
@@ -31,13 +32,11 @@ fetch(DIRECTORY_URL).then(res => res.json()).then(async json => {
     for (id in json) {
         fetch(json[id]).then(res => res.json()).then(json => {
             return database.queryPromisify(sql, [json.space, json.logo, json.location.lat, json.location.lon]);
-        }).then(() => {
-            if (i % 5 === 0) {
-                console.log(`${i}…`);
-            }
         }).catch(() => { /* ignore errors */ })
             .finally(() => {
-                i++;
+                if (++i % 5 === 0) {
+                    console.log(`${i}…`);
+                }
 
                 if (i === hackspacesCount) {
                     console.log('Done.');
