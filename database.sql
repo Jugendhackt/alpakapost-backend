@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `connections` (
   CONSTRAINT `FK_connections_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table alpakapost.connections: ~0 rows (approximately)
+-- Dumping data for table alpakapost.connections: ~1 rows (approximately)
 /*!40000 ALTER TABLE `connections` DISABLE KEYS */;
 INSERT IGNORE INTO `connections` (`connection_id`, `user_id`, `max_x`, `max_y`, `max_z`) VALUES
 	(1, 1, 999.99, 999.99, 999.99);
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `goods` (
   CONSTRAINT `FK_goods_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table alpakapost.goods: ~0 rows (approximately)
+-- Dumping data for table alpakapost.goods: ~1 rows (approximately)
 /*!40000 ALTER TABLE `goods` DISABLE KEYS */;
 INSERT IGNORE INTO `goods` (`good_id`, `user_id`, `weight`, `dimension_x`, `dimension_y`, `dimension_z`, `start_location_id`, `destination_location_id`) VALUES
 	(6, 1, 10.00, 999.99, 999.99, 999.99, 95, 103);
@@ -221,12 +221,30 @@ CREATE TABLE IF NOT EXISTS `rides` (
   CONSTRAINT `FK_rides_hackerspaces_2` FOREIGN KEY (`destination_location_id`) REFERENCES `hackerspaces` (`hackerspace_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table alpakapost.rides: ~0 rows (approximately)
+-- Dumping data for table alpakapost.rides: ~2 rows (approximately)
 /*!40000 ALTER TABLE `rides` DISABLE KEYS */;
 INSERT IGNORE INTO `rides` (`ride_id`, `start_location_id`, `destination_location_id`, `connection_id`) VALUES
 	(1, 95, 104, 1),
 	(2, 104, 103, 1);
 /*!40000 ALTER TABLE `rides` ENABLE KEYS */;
+
+-- Dumping structure for table alpakapost.tracking
+CREATE TABLE IF NOT EXISTS `tracking` (
+  `tracking_id` int(11) NOT NULL AUTO_INCREMENT,
+  `good_id` int(10) NOT NULL,
+  `status` enum('Start','Pending','Delivering') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Pending',
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`tracking_id`),
+  KEY `FK_tracking_goods` (`good_id`),
+  CONSTRAINT `FK_tracking_goods` FOREIGN KEY (`good_id`) REFERENCES `goods` (`good_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Dumping data for table alpakapost.tracking: ~0 rows (approximately)
+/*!40000 ALTER TABLE `tracking` DISABLE KEYS */;
+INSERT IGNORE INTO `tracking` (`tracking_id`, `good_id`, `status`, `time`) VALUES
+	(2, 6, 'Start', '2018-10-20 22:20:01'),
+	(3, 6, 'Delivering', '2018-10-20 22:25:44');
+/*!40000 ALTER TABLE `tracking` ENABLE KEYS */;
 
 -- Dumping structure for table alpakapost.user
 CREATE TABLE IF NOT EXISTS `user` (
