@@ -27,7 +27,7 @@ app.get('/user', (req, res) => {
     database.getDatabase().query('SELECT * FROM user;', (err, results) => {
         if (err) throw err;
 
-        response.json(results);
+        res.json(results);
     });
 });
 
