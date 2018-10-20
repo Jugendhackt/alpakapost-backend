@@ -24,5 +24,5 @@ app.get('/locations', function (request, response) {
 
 // only serve the app as soon as we have database access.
 database.establishConnection().then(function () {
-    app.listen(8080, "127.0.0.1");
+    app.listen(8080, "0.0.0.0");
 });
