@@ -42,6 +42,18 @@ app.get('/goods', (req, res) => {
         LEFT JOIN hackerspaces hs ON hs.hackerspace_id = goods.start_location_id
         WHERE name LIKE ?`;
         parameters.push(`%${req.query.station_id}%`);
+    } else if (req.query.good_id) {
+        sql = `SELECT hs.*, goods.*
+        FROM goods
+        LEFT JOIN hackerspaces hs ON hs.hackerspace_id = goods.start_location_id
+        WHERE good_id = ?`;
+        parameters.push(Number.parseInt(req.query.good_id));
+    } else if (req.query.user_id) {
+        sql = `SELECT hs.*, goods.*
+        FROM goods
+        LEFT JOIN hackerspaces hs ON hs.hackerspace_id = goods.start_location_id
+        WHERE user_id = ?`;
+        parameters.push(Number.parseInt(req.query.user_id));
     } else {
         sql = `SELECT goods.*,
 hs1.name hs1_name, hs1.logo_url hs1_logo_url, hs1.latitude hs1_latitude, hs1.longitude hs1_longitude,
