@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `connections` (
   CONSTRAINT `FK_connections_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table alpakapost.connections: ~1 rows (approximately)
+-- Dumping data for table alpakapost.connections: ~0 rows (approximately)
 /*!40000 ALTER TABLE `connections` DISABLE KEYS */;
 INSERT IGNORE INTO `connections` (`connection_id`, `user_id`, `max_x`, `max_y`, `max_z`) VALUES
 	(1, 1, 999.99, 999.99, 999.99);
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `goods` (
   CONSTRAINT `FK_goods_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table alpakapost.goods: ~1 rows (approximately)
+-- Dumping data for table alpakapost.goods: ~0 rows (approximately)
 /*!40000 ALTER TABLE `goods` DISABLE KEYS */;
 INSERT IGNORE INTO `goods` (`good_id`, `user_id`, `weight`, `dimension_x`, `dimension_y`, `dimension_z`, `start_location_id`, `destination_location_id`) VALUES
 	(6, 1, 10.00, 999.99, 999.99, 999.99, 95, 103);
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `hackerspaces` (
   `longitude` decimal(10,7) DEFAULT NULL,
   PRIMARY KEY (`hackerspace_id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=134 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Dumping data for table alpakapost.hackerspaces: ~131 rows (approximately)
 /*!40000 ALTER TABLE `hackerspaces` DISABLE KEYS */;
@@ -203,7 +203,8 @@ INSERT IGNORE INTO `hackerspaces` (`hackerspace_id`, `name`, `logo_url`, `latitu
 	(130, 'Ko-Lab', 'https://ko-lab.space/wp-content/uploads/2018/04/Logo_Ko-lab_big.png', 51.0221080, 4.4827800),
 	(131, 'Minsk Hackerspace', 'https://hackerspace.by/images/default.png', 53.9428700, 27.5974900),
 	(132, 'Nottinghack', 'https://lspace.nottinghack.org.uk/status/logo.png', 52.9557000, -1.1350000),
-	(133, 'Perth Artifactory', 'http://artifactory.org.au/branding/artifactory-logo.png', -31.9018460, 115.8101360);
+	(133, 'Perth Artifactory', 'http://artifactory.org.au/branding/artifactory-logo.png', -31.9018460, 115.8101360),
+	(134, 'Jugend Hackt', 'https://jugendhackt.org/wp-content/themes/jugend-hackt/library/images/logo.svg', 52.5169500, 13.4778200);
 /*!40000 ALTER TABLE `hackerspaces` ENABLE KEYS */;
 
 -- Dumping structure for table alpakapost.rides
@@ -219,13 +220,17 @@ CREATE TABLE IF NOT EXISTS `rides` (
   CONSTRAINT `FK_rides_connections` FOREIGN KEY (`connection_id`) REFERENCES `connections` (`connection_id`) ON DELETE CASCADE,
   CONSTRAINT `FK_rides_hackerspaces` FOREIGN KEY (`start_location_id`) REFERENCES `hackerspaces` (`hackerspace_id`) ON DELETE CASCADE,
   CONSTRAINT `FK_rides_hackerspaces_2` FOREIGN KEY (`destination_location_id`) REFERENCES `hackerspaces` (`hackerspace_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table alpakapost.rides: ~2 rows (approximately)
+-- Dumping data for table alpakapost.rides: ~6 rows (approximately)
 /*!40000 ALTER TABLE `rides` DISABLE KEYS */;
 INSERT IGNORE INTO `rides` (`ride_id`, `start_location_id`, `destination_location_id`, `connection_id`) VALUES
 	(1, 95, 104, 1),
-	(2, 104, 103, 1);
+	(2, 104, 103, 1),
+	(3, 105, 51, 1),
+	(4, 51, 52, 1),
+	(5, 5, 105, 1),
+	(7, 5, 95, 1);
 /*!40000 ALTER TABLE `rides` ENABLE KEYS */;
 
 -- Dumping structure for table alpakapost.tracking
@@ -239,7 +244,7 @@ CREATE TABLE IF NOT EXISTS `tracking` (
   CONSTRAINT `FK_tracking_goods` FOREIGN KEY (`good_id`) REFERENCES `goods` (`good_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table alpakapost.tracking: ~0 rows (approximately)
+-- Dumping data for table alpakapost.tracking: ~2 rows (approximately)
 /*!40000 ALTER TABLE `tracking` DISABLE KEYS */;
 INSERT IGNORE INTO `tracking` (`tracking_id`, `good_id`, `status`, `time`) VALUES
 	(2, 6, 'Start', '2018-10-20 22:20:01'),

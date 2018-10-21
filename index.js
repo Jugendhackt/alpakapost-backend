@@ -34,6 +34,8 @@ app.get('/route', async (req, res) => {
     // do the magic
     let route_path = await dijlkstra(Number.parseInt(start_location_id), Number.parseInt(destination_location_id));
 
+    route_path.unshift(Number.parseInt(start_location_id));
+
     if (route_path === void 0) {
         res.json({
             error: true,
@@ -43,14 +45,14 @@ app.get('/route', async (req, res) => {
     }
 
     let sql = 'SELECT * FROM hackerspaces WHERE hackerspace_id IN (?);'
-    let output = {};
+    let output = [];
 
     database.getDatabase().query(sql, [route_path], (err, results) => {
         if (err) throw err;
 
         for (route_part of route_path) {
-            let hackerspace = results.filter(x => x.hackerspace_id === route_part);
-            output[route_part] = hackerspace;
+            let hackerspace = results.filter(x => x.hackerspace_id === route_part)[0];
+            output.push(hackerspace);
         }
 
         res.json(output);
