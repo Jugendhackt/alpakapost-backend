@@ -40,19 +40,17 @@ app.get('/route', async (req, res) => {
     // add start location to output for proper output
     route_path.unshift(Number.parseInt(start_location_id));
 
-    let sql = 'SELECT * FROM hackerspaces WHERE hackerspace_id IN (?);'
     let output = [];
 
-    database.getDatabase().query(sql, [route_path], (err, results) => {
-        if (err) throw err;
+    // -1 because `Array.prototype.length` is one-indexed.
+    for (let i = 0; i < (route_path.length - 1); i++) {
+        let sql = 'SELECT * FROM rides WHERE start_location_id = ? AND destination_location_id = ?;';
 
-        for (route_part of route_path) {
-            let hackerspace = results.filter(x => x.hackerspace_id === route_part)[0];
-            output.push(hackerspace);
-        }
+        let ride = await database.queryPromisify(sql, [route_path[i], route_path[i + 1]]);
+        output.push(ride[0]);
+    }
 
-        res.json(output);
-    });
+    res.json(output);
 });
 
 // shows all possible locations goods can go from A to B.
