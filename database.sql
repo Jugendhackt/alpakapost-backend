@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `connections` (
   CONSTRAINT `FK_connections_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table alpakapost.connections: ~0 rows (approximately)
+-- Dumping data for table alpakapost.connections: ~1 rows (approximately)
 /*!40000 ALTER TABLE `connections` DISABLE KEYS */;
 INSERT IGNORE INTO `connections` (`connection_id`, `user_id`, `max_x`, `max_y`, `max_z`) VALUES
 	(1, 1, 999.99, 999.99, 999.99);
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS `goods` (
   CONSTRAINT `FK_goods_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table alpakapost.goods: ~0 rows (approximately)
+-- Dumping data for table alpakapost.goods: ~1 rows (approximately)
 /*!40000 ALTER TABLE `goods` DISABLE KEYS */;
 INSERT IGNORE INTO `goods` (`good_id`, `user_id`, `weight`, `dimension_x`, `dimension_y`, `dimension_z`, `start_location_id`, `destination_location_id`) VALUES
 	(6, 1, 10.00, 999.99, 999.99, 999.99, 95, 103);
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `hackerspaces` (
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table alpakapost.hackerspaces: ~18 rows (approximately)
+-- Dumping data for table alpakapost.hackerspaces: ~132 rows (approximately)
 /*!40000 ALTER TABLE `hackerspaces` DISABLE KEYS */;
 INSERT IGNORE INTO `hackerspaces` (`hackerspace_id`, `name`, `logo_url`, `latitude`, `longitude`) VALUES
 	(1, '/dev/tal', 'http://devtal.de/logo.png', 51.2670186, 7.1453920),
@@ -230,7 +230,12 @@ INSERT IGNORE INTO `rides` (`ride_id`, `start_location_id`, `destination_locatio
 	(3, 105, 51, 1),
 	(4, 51, 52, 1),
 	(5, 5, 105, 1),
-	(7, 5, 95, 1);
+	(7, 5, 95, 1),
+	(8, 11, 15, 1),
+	(9, 15, 12, 1),
+	(14, 12, 103, 1),
+	(15, 103, 74, 1),
+	(16, 74, 134, 1);
 /*!40000 ALTER TABLE `rides` ENABLE KEYS */;
 
 -- Dumping structure for table alpakapost.tracking
@@ -263,7 +268,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table alpakapost.user: ~0 rows (approximately)
+-- Dumping data for table alpakapost.user: ~1 rows (approximately)
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT IGNORE INTO `user` (`user_id`, `user_name`, `bio`, `telegram`, `mastodon`, `twitter`, `mobile`) VALUES
 	(1, 'jens1o', 'Awesome person', '@jens1o', '', '@jens1o', '');
