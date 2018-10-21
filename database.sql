@@ -63,14 +63,14 @@ INSERT IGNORE INTO `goods` (`good_id`, `user_id`, `weight`, `dimension_x`, `dime
 CREATE TABLE IF NOT EXISTS `hackerspaces` (
   `hackerspace_id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `logo_url` varchar(120) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `logo_url` varchar(120) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'https://raw.githubusercontent.com/pajowu/jugendhackt-logo/gh-pages/mix.png',
   `latitude` decimal(10,7) DEFAULT NULL,
   `longitude` decimal(10,7) DEFAULT NULL,
   PRIMARY KEY (`hackerspace_id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=135 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Dumping data for table alpakapost.hackerspaces: ~131 rows (approximately)
+-- Dumping data for table alpakapost.hackerspaces: ~18 rows (approximately)
 /*!40000 ALTER TABLE `hackerspaces` DISABLE KEYS */;
 INSERT IGNORE INTO `hackerspaces` (`hackerspace_id`, `name`, `logo_url`, `latitude`, `longitude`) VALUES
 	(1, '/dev/tal', 'http://devtal.de/logo.png', 51.2670186, 7.1453920),
@@ -88,7 +88,7 @@ INSERT IGNORE INTO `hackerspaces` (`hackerspace_id`, `name`, `logo_url`, `latitu
 	(13, 'CCC Cologne', 'https://koeln.ccc.de/images/C4-logo_transparent_black.svg', 50.9504142, 6.9129647),
 	(14, 'ChaosStuff', 'http://wiki.c3l.lu/lib/exe/fetch.php?media=organization:logo:logo-chaosstuff-text-grey.png', 49.6207090, 6.1225810),
 	(15, 'Chaosdorf', 'https://wiki.chaosdorf.de/images/1/1d/ChaosdorfLogo.svg', 51.2165600, 6.7834700),
-	(16, 'Chaostreff Flensburg e.V.', '', 54.8045000, 9.4234100),
+	(16, 'Chaostreff Flensburg e.V.', 'https://raw.githubusercontent.com/pajowu/jugendhackt-logo/gh-pages/mix.png', 54.8045000, 9.4234100),
 	(17, 'Chaos Computer Club Basel', 'https://wiki.chaostreff.ch/skins/Ccc2.png', 47.5323266, 7.6342312),
 	(18, 'Chaostreff Bern', 'https://www.chaostreffbern.ch/images/logo_v1.0.png', 46.9477000, 7.4157000),
 	(19, 'Chaos Computer Club Zürich', 'https://www.ccczh.ch/theme/images/chaosknoten_ccczh_white.svg', 8.5248260, 47.3930600),
@@ -161,7 +161,7 @@ INSERT IGNORE INTO `hackerspaces` (`hackerspace_id`, `name`, `logo_url`, `latitu
 	(87, 'Terminal.21 Basislager', 'http://download.terminal21.de/terminal21/logo/logo_beta_schwarz.png', 51.4799600, 11.9922100),
 	(88, 'Umeå Hackerspace', 'http://umeahackerspace.se/wp-content/uploads/2014/09/cropped-hemsidelogga2.png', 63.8232600, 20.2820800),
 	(89, 'Toolbox Bodensee e.V.', 'https://toolbox-bodensee.de/images/logo.svg', 47.7120000, 9.3990000),
-	(90, 'The Bodgery', '', -89.3101386, 43.0918570),
+	(90, 'The Bodgery', 'https://raw.githubusercontent.com/pajowu/jugendhackt-logo/gh-pages/mix.png', -89.3101386, 43.0918570),
 	(91, 'TkkrLab', 'https://tkkrlab.nl/images/TkkrLab.png', 52.2223880, 6.8724350),
 	(92, 'VoidWarranties', 'http://wiki.voidwarranties.be/images/5/59/Voidwarranties100X35.jpg', 51.2086830, 4.4534350),
 	(93, 'UrLab', 'https://urlab.be/static/img/space-invaders.png', 50.8129150, 4.3843960),
