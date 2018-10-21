@@ -12,6 +12,50 @@ require('dotenv').config();
 const express = require('express');
 const database = require('./src/databaseManager').getInstance({ verbose: true });
 const app = express();
+const dijlkstra = require('./dijlkstra');
+
+app.get('/route', async (req, res) => {
+    /**
+     * @type Map<number, Object>
+     */
+    let id_to_info = new Map();
+
+    let start_location_id = req.query.start_location_id;
+    let destination_location_id = req.query.destination_location_id;
+
+    if (!start_location_id || !destination_location_id) {
+        res.json({
+            error: true,
+            error_message: "Missing required parameters"
+        });
+        return;
+    }
+
+    // do the magic
+    let route_path = await dijlkstra(Number.parseInt(start_location_id), Number.parseInt(destination_location_id));
+
+    if (route_path === void 0) {
+        res.json({
+            error: true,
+            error_message: "No route found"
+        });
+        return;
+    }
+
+    let sql = 'SELECT * FROM hackerspaces WHERE hackerspace_id IN (?);'
+    let output = {};
+
+    database.getDatabase().query(sql, [route_path], (err, results) => {
+        if (err) throw err;
+
+        for (route_part of route_path) {
+            let hackerspace = results.filter(x => x.hackerspace_id === route_part);
+            output[route_part] = hackerspace;
+        }
+
+        res.json(output);
+    });
+});
 
 // shows all possible locations goods can go from A to B.
 app.get('/locations', function (request, response) {
