@@ -15,11 +15,6 @@ const app = express();
 const dijlkstra = require('./dijlkstra');
 
 app.get('/route', async (req, res) => {
-    /**
-     * @type Map<number, Object>
-     */
-    let id_to_info = new Map();
-
     let start_location_id = req.query.start_location_id;
     let destination_location_id = req.query.destination_location_id;
 
