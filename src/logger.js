@@ -42,7 +42,7 @@ class Logger {
         message.unshift(`${this.loggerName.padStart(8)} --`);
 
         // FIXME: This logs an array but it is not useful most of the time.
-        console[logLevel].apply(this, message.join(' '));
+        console[logLevel].apply(this, message);
     }
 
     warn(...message) {
