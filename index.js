@@ -40,6 +40,9 @@ app.get('/route', async (req, res) => {
         return;
     }
 
+    // add start location to output for proper output
+    route_path.unshift(Number.parseInt(start_location_id));
+
     let sql = 'SELECT * FROM hackerspaces WHERE hackerspace_id IN (?);'
     let output = [];
 
