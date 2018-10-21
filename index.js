@@ -34,6 +34,7 @@ app.get('/route', async (req, res) => {
     // do the magic
     let route_path = await dijlkstra(Number.parseInt(start_location_id), Number.parseInt(destination_location_id));
 
+    // add start location to output for proper output
     route_path.unshift(Number.parseInt(start_location_id));
 
     if (route_path === void 0) {
