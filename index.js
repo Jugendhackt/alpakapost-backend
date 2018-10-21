@@ -43,6 +43,7 @@ app.get('/route', async (req, res) => {
     let output = [];
 
     // -1 because `Array.prototype.length` is one-indexed.
+    // < because the last node doesn't have any neighbour.
     for (let i = 0; i < (route_path.length - 1); i++) {
         let sql = 'SELECT * FROM rides WHERE start_location_id = ? AND destination_location_id = ?;';
 
