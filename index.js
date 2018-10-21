@@ -45,7 +45,14 @@ app.get('/route', async (req, res) => {
     // -1 because `Array.prototype.length` is one-indexed.
     // < because the last node doesn't have any neighbour.
     for (let i = 0; i < (route_path.length - 1); i++) {
-        let sql = 'SELECT * FROM rides WHERE start_location_id = ? AND destination_location_id = ?;';
+        let sql = `SELECT
+        rides.*,
+        hs1.name hs1_name,
+        hs2.name hs2_name
+        FROM rides
+        LEFT JOIN hackerspaces hs1 ON hs1.hackerspace_id = start_location_id
+        LEFT JOIN hackerspaces hs2 ON hs2.hackerspace_id = destination_location_id
+        WHERE start_location_id = ? AND destination_location_id = ?;`;
 
         let ride = await database.queryPromisify(sql, [route_path[i], route_path[i + 1]]);
         output.push(ride[0]);
